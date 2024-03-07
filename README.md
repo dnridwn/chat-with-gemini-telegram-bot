@@ -37,6 +37,9 @@
     docker compose up --build
     ```
 
+## Demo
+
+[Chat With Gemini Bot](https://telegram.me/chat_with_gemini_bot)
 
 ## Screenshots
 
