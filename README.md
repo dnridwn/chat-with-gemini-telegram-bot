@@ -9,8 +9,11 @@
 - Telegram bot token
 - Gemini API Key
 - Docker installed on your computer
+- MySQL database
+
 ## Installation
 
+- Create a new database and create the *chat_session* table by running the SQL syntax from [chat_session.sql](/sql/chat_session.sql)
 - Create new file called *.env* copy from *.env.example*
 - Set up *.env* file with your credentials
 
