@@ -8,9 +8,6 @@ import (
 type ChatSession struct {
 	ID      uint64 `json:"id,omitempty"`
 	History string `json:"history,omitempty"`
-	// CreatedAt sql.NullTime
-	// UpdatedAt sql.NullTime
-	// DeletedAt sql.NullTime
 }
 
 func GetLatestHistory(db *sql.DB, cID int64) (ChatSession, error) {
