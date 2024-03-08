@@ -39,9 +39,10 @@ func SaveHistory(db *sql.DB, cID int64, cs []Content) error {
 	}
 
 	_, err = db.Exec("INSERT INTO chat_sessions (chat_id, history, created_at, updated_at) VALUES (?, ?, NOW(), NOW())", cID, string(csB))
-	if err != nil {
-		return err
-	}
+	return err
+}
 
-	return nil
+func DeleteHistory(db *sql.DB, cID int64) error {
+	_, err := db.Exec("UPDATE chat_sessions SET deleted_at = NOW() WHERE chat_id = ? AND deleted_at IS NULL", cID)
+	return err
 }

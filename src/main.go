@@ -61,6 +61,10 @@ func handleCommand(ctx context.Context, u tgbotapi.Update) {
 	default:
 		switch u.Message.Command() {
 		case "start":
+			if err := DeleteHistory(db, u.Message.Chat.ID); err != nil {
+				failedProcessUpdate(u, err)
+				return
+			}
 			githubBtn := tgbotapi.NewInlineKeyboardButtonURL("Github of Creator", "https://github.com/dnridwn")
 			sendMessageToUser(u, "Hello! I am an AI Chatbot with Gemini model.\nI was created by Den Ridwan Saputra\n\nPlease write your message.", tgbotapi.NewInlineKeyboardMarkup([]tgbotapi.InlineKeyboardButton{githubBtn}))
 		}
@@ -76,28 +80,28 @@ func handleMessage(ctx context.Context, u tgbotapi.Update) {
 
 		c, err := GetLatestHistory(db, u.Message.Chat.ID)
 		if err != nil {
-			failedHandleMessage(u, err)
+			failedProcessUpdate(u, err)
 			return
 		}
 
 		history := []Content{}
 		if c.ID > 0 {
 			if err := json.Unmarshal([]byte(c.History), &history); err != nil {
-				failedHandleMessage(u, err)
+				failedProcessUpdate(u, err)
 				return
 			}
 		}
 
 		g, err := NewGemini(os.Getenv("GEMINI_API_KEY"), geminiProModel)
 		if err != nil {
-			failedHandleMessage(u, err)
+			failedProcessUpdate(u, err)
 			return
 		}
 
 		g.StartChat(history)
 		resp, err := g.SendMessage(u.Message.Text)
 		if err != nil {
-			failedHandleMessage(u, err)
+			failedProcessUpdate(u, err)
 			return
 		}
 
@@ -106,7 +110,7 @@ func handleMessage(ctx context.Context, u tgbotapi.Update) {
 	}
 }
 
-func failedHandleMessage(u tgbotapi.Update, err error) {
+func failedProcessUpdate(u tgbotapi.Update, err error) {
 	log.Println(err)
 	sendMessageToUser(u, "Sorry, something went wrong. Please re-send your message", nil)
 }
