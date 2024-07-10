@@ -60,7 +60,7 @@ func (gr *GenerateResponse) String() string {
 
 const (
 	baseURL        = "https://generativelanguage.googleapis.com/v1beta"
-	geminiProModel = "gemini-pro"
+	geminiProModel = "gemini-1.5-flash"
 )
 
 var (
