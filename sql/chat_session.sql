@@ -1,3 +1,5 @@
+USE `chat_with_gemini`;
+
 CREATE TABLE `chat_sessions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `chat_id` bigint unsigned DEFAULT NULL,
