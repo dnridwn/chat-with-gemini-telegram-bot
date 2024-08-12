@@ -1,4 +1,4 @@
-USE `chat_with_gemini`;
+USE `chat_with_gemini_db`;
 
 CREATE TABLE `chat_sessions` (
   `id` int NOT NULL AUTO_INCREMENT,
