@@ -123,5 +123,6 @@ func sendMessageToUser(u tgbotapi.Update, message string, replyMarkup interface{
 	_, err := bot.Send(msg)
 	if err != nil {
 		log.Println(err)
+		failedProcessUpdate(u, err)
 	}
 }
