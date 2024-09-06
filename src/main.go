@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -105,7 +106,12 @@ func handleMessage(ctx context.Context, u tgbotapi.Update) {
 			return
 		}
 
-		sendMessageToUser(u, resp.String(), nil)
+		responseStr := resp.String()
+		responsesStr := splitMessage(responseStr, 4096)
+		for _, r := range responsesStr {
+			sendMessageToUser(u, r, nil)
+		}
+
 		SaveHistory(db, u.Message.Chat.ID, g.GetHistory())
 	}
 }
@@ -124,4 +130,29 @@ func sendMessageToUser(u tgbotapi.Update, message string, replyMarkup interface{
 	if err != nil {
 		failedProcessUpdate(u, err)
 	}
+}
+
+func splitMessage(message string, length int) []string {
+	words := strings.Split(message, " ")
+	chunks := []string{}
+	chunk := ""
+
+	for _, word := range words {
+		if len(chunk)+len(word)+1 > length {
+			chunks = append(chunks, chunk)
+			chunk = ""
+		} else {
+			if chunk != "" {
+				chunk += " "
+			}
+
+			chunk += word
+		}
+	}
+
+	if chunk != "" {
+		chunks = append(chunks, chunk)
+	}
+
+	return chunks
 }
