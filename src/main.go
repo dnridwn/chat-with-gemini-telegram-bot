@@ -119,6 +119,7 @@ func sendMessageToUser(u tgbotapi.Update, message string, replyMarkup interface{
 	msg := tgbotapi.NewMessage(u.Message.Chat.ID, message)
 	msg.ReplyToMessageID = u.Message.MessageID
 	msg.ReplyMarkup = replyMarkup
+	msg.ParseMode = "markdown"
 	_, err := bot.Send(msg)
 	if err != nil {
 		log.Println(err)
