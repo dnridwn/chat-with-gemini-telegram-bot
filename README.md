@@ -9,7 +9,7 @@
 - Telegram bot token
 - Gemini API Key
 - Docker installed on your computer
-- MySQL database
+- MySQL database (optional, if you don't use the mysql container)
 
 ## Installation
 
