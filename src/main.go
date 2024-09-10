@@ -107,6 +107,7 @@ func handleMessage(ctx context.Context, u tgbotapi.Update) {
 		}
 
 		responseStr := resp.String()
+		responseStr = strings.ReplaceAll(responseStr, "\n* ", "\n• ")
 		responsesStr := splitMessage(responseStr, 4096)
 		for _, r := range responsesStr {
 			sendMessageToUser(u, r, nil)
